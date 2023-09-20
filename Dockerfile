@@ -29,6 +29,4 @@ USER 10500
 
 EXPOSE 3000
 
-USER appuser
-
 CMD [ "npm", "start" ]
