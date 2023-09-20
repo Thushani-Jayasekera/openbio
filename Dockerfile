@@ -21,9 +21,7 @@ FROM node:18-alpine AS runner
 ENV NEXT_TELEMETRY_DISABLED 1
 
 WORKDIR /app
-COPY --from=builder /app/.next/standalone ./standalone
-COPY --from=builder /app/public /app/standalone/public
-COPY --from=builder /app/.next/static /app/standalone/.next/static
+COPY --from=builder /app/.next /app
 
 RUN chown -R 10500:10500 "/app"
 
@@ -31,5 +29,5 @@ USER 10500
 
 EXPOSE 3000
 
-CMD ["node", "./standalone/server.js"]
+CMD ["node", "./.next/standalone/server.js"]
 
