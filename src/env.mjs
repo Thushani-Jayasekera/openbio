@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createEnv } from "@t3-oss/env-nextjs";
+import getConfig from "next/config";
 import { z } from "zod";
+
+
+const { publicRuntimeConfig } = getConfig();
 
 export const env = createEnv({
   server: {
@@ -31,33 +37,33 @@ export const env = createEnv({
   },
 
   runtimeEnv: {
-    DATABASE_URL: process.env.DATABASE_URL,
-    NODE_ENV: process.env.NODE_ENV,
-    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
-    CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET,
+    DATABASE_URL: publicRuntimeConfig.DATABASE_URL,
+    NODE_ENV: publicRuntimeConfig.NODE_ENV || "production",
+    CLERK_SECRET_KEY: publicRuntimeConfig.CLERK_SECRET_KEY,
+    CLERK_WEBHOOK_SECRET: publicRuntimeConfig.CLERK_WEBHOOK_SECRET,
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
-      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-    NEXT_PUBLIC_CLERK_SIGN_IN_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
-    NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
+    publicRuntimeConfig.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL: publicRuntimeConfig.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
+    NEXT_PUBLIC_CLERK_SIGN_UP_URL: publicRuntimeConfig.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
     NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL:
-      process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
+    publicRuntimeConfig.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL:
-      process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
-    NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
-    RESEND_API_KEY: process.env.RESEND_API_KEY,
-    KV_URL: process.env.KV_URL,
-    KV_REST_API_URL: process.env.KV_REST_API_URL,
-    KV_REST_API_TOKEN: process.env.KV_REST_API_TOKEN,
+    publicRuntimeConfig.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
+    NEXT_PUBLIC_URL: publicRuntimeConfig.NEXT_PUBLIC_URL,
+    RESEND_API_KEY: publicRuntimeConfig.RESEND_API_KEY,
+    KV_URL: publicRuntimeConfig.KV_URL,
+    KV_REST_API_URL: publicRuntimeConfig.KV_REST_API_URL,
+    KV_REST_API_TOKEN: publicRuntimeConfig.KV_REST_API_TOKEN,
     KV_REST_API_READ_ONLY_TOKEN: process.env.KV_REST_API_READ_ONLY_TOKEN,
-    UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
-    UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
+    UPLOADTHING_SECRET: publicRuntimeConfig.UPLOADTHING_SECRET,
+    UPLOADTHING_APP_ID: publicRuntimeConfig.UPLOADTHING_APP_ID,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-    STRIPE_PRO_MONTHLY_PRICE_ID: process.env.STRIPE_PRO_MONTHLY_PRICE_ID,
-    STRIPE_PRO_YEARLY_PRICE_ID: process.env.STRIPE_PRO_YEARLY_PRICE_ID,
+    publicRuntimeConfig.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    STRIPE_SECRET_KEY: publicRuntimeConfig.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: publicRuntimeConfig.STRIPE_WEBHOOK_SECRET,
+    STRIPE_PRO_MONTHLY_PRICE_ID: publicRuntimeConfig.STRIPE_PRO_MONTHLY_PRICE_ID,
+    STRIPE_PRO_YEARLY_PRICE_ID: publicRuntimeConfig.STRIPE_PRO_YEARLY_PRICE_ID,
   },
 
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  skipValidation: !!publicRuntimeConfig.SKIP_ENV_VALIDATION,
 });
