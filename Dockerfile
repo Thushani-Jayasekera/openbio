@@ -1,6 +1,7 @@
 FROM node:18-alpine as builder
 
 RUN npm install -g pnpm
+RUN npm install -g next
 
 WORKDIR /app
 
@@ -12,7 +13,7 @@ RUN if [ -f "package-lock.json" ]; then npm ci; \
 
 COPY . .
 
-RUN npm run build
+RUN npx run build
 
 FROM node:18-alpine
 
