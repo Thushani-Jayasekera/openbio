@@ -16,8 +16,6 @@ RUN npm run build
 
 FROM node:18-alpine
 
-RUN adduser -D -u 10500 appuser
-
 WORKDIR /app
 
 COPY --from=builder /app/.next ./.next
@@ -25,7 +23,9 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 
-RUN chown -R appuser:appuser /app
+RUN chown -R 10500:10500 "/app"
+
+USER 10500
 
 EXPOSE 3000
 
