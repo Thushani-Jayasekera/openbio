@@ -5,7 +5,7 @@ RUN npm install -g next
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY . .
 
 RUN if [ -f "package-lock.json" ]; then npm ci; \
     elif [ -f "yarn.lock" ]; then yarn; \
@@ -13,16 +13,18 @@ RUN if [ -f "package-lock.json" ]; then npm ci; \
 
 COPY . .
 
-RUN npx run build
+ENV NEXT_TELEMETRY_DISABLED 1
 
-FROM node:18-alpine
+RUN npm run build
+
+FROM node:18-alpine AS runner
+
+ENV NEXT_TELEMETRY_DISABLED 1
 
 WORKDIR /app
-
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
+COPY --from=builder /app/.next/standalone ./standalone
+COPY --from=builder /app/public /app/standalone/public
+COPY --from=builder /app/.next/static /app/standalone/.next/static
 
 RUN chown -R 10500:10500 "/app"
 
@@ -30,4 +32,5 @@ USER 10500
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD ["node", "./standalone/server.js"]
+
